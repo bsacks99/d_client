@@ -14,6 +14,12 @@ var mainView = myApp.addView('.view-main', {
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
     console.log("Device is ready!");
+
+    console.log("Initialize the Amazon Cognito credentials provider")
+    AWS.config.region = 'us-east-1'; // Region
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+        IdentityPoolId: 'us-east-1:418de104-0559-4896-9217-83e02d33ee15',
+    });
 });
 
 

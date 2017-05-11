@@ -15,6 +15,9 @@
         },
         "cordova-plugin-statusbar": {
             "PACKAGE_NAME": "com.capstone.donedat"
+        },
+        "cordova-plugin-sqlite-2": {
+            "PACKAGE_NAME": "com.capstone.donedat"
         }
     },
     "dependent_plugins": {}
