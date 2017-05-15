@@ -25,8 +25,26 @@ DoneIt.onPageInit('about', function (page) {
 
 })
 
+DoneIt.onPageInit('add_task', function (page) {
+
+
+})
+
+
+DoneIt.onPageInit('tasks', function (page) {
+
+
+})
+
+DoneIt.onPageInit('group', function (page) {
+
+
+})
+
 DoneIt.onPageInit('sign_up', function (page) {
-    $$('.sign-up-submit').on('click', function(){
+    $$('.sign-up-submit').on('click', function() {
+
+        DoneIt.showIndicator();
 
         var constraints = {
             username: {
@@ -84,16 +102,23 @@ DoneIt.onPageInit('sign_up', function (page) {
 
             attributeList.push(attributeEmail);
 
-            userPool.signUp(formData['username'], formData['password'], attributeList, null, function(err, result){
+            userPool.signUp(formData['username'], formData['password'], attributeList, null, function(err, result) {
+
+                DoneIt.hideIndicator();
+
                 if (err) {
                     DoneIt.alert(err);
                     return;
                 }
                 cognitoUser = result.user;
-                console.log('user name is ' + cognitoUser.getUsername());
+                if(formData['username'] == cognitoUser.getUsername()) {
+                    // Show confirmation
+                }
             });
         } else {
-            console.log(errors)
+            // show form errors
+            DoneIt.hideIndicator();
+
             var count = 0;
             for (var key in errors) {
                 if(count) break;
