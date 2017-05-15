@@ -42,6 +42,26 @@ DoneIt.onPageInit('group', function (page) {
 })
 
 DoneIt.onPageInit('sign_up', function (page) {
+
+    AWS.config.region = 'us-east-1'; // Region
+
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+        IdentityPoolId: 'us-east-1:418de104-0559-4896-9217-83e02d33ee15'
+    });
+
+    AWSCognito.config.region = 'us-east-1';
+    AWSCognito.config.credentials = new AWS.CognitoIdentityCredentials({
+        IdentityPoolId: 'us-east-1:418de104-0559-4896-9217-83e02d33ee15'
+    });
+
+    var poolData = { 
+        UserPoolId : 'us-east-1_xdOMAneGm',
+        ClientId : '7ptcuuo7ui75r2rhlenl8svl6q'
+    };
+    var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
+
+    var cognitoUser = false;
+
     $$('.sign-up-submit').on('click', function() {
 
         DoneIt.showIndicator();
@@ -74,23 +94,6 @@ DoneIt.onPageInit('sign_up', function (page) {
 
             console.log("Initialize the Amazon Cognito credentials provider")
 
-            AWS.config.region = 'us-east-1'; // Region
-
-            AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-                IdentityPoolId: 'us-east-1:418de104-0559-4896-9217-83e02d33ee15'
-            });
-
-            AWSCognito.config.region = 'us-east-1';
-            AWSCognito.config.credentials = new AWS.CognitoIdentityCredentials({
-                IdentityPoolId: 'us-east-1:418de104-0559-4896-9217-83e02d33ee15'
-            });
-
-            var poolData = { 
-                UserPoolId : 'us-east-1_xdOMAneGm',
-                ClientId : '7ptcuuo7ui75r2rhlenl8svl6q'
-            };
-            var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
-
             var attributeList = [];
             
             var dataEmail = {
@@ -112,7 +115,7 @@ DoneIt.onPageInit('sign_up', function (page) {
                 }
                 cognitoUser = result.user;
                 if(formData['username'] == cognitoUser.getUsername()) {
-                    // Show confirmation
+                    DoneIt.popup('.popup-confirm')
                 }
             });
         } else {
@@ -142,7 +145,59 @@ DoneIt.onPageInit('sign_up', function (page) {
             }
 
         }
-    }); 
+    });
+
+    $$('.confirm-submit').on('click', function() {
+        DoneIt.showIndicator();
+
+        var constraints = {
+            confirmation_code: {
+                presence: {message: "Please provide a confirmation code"}
+            }
+        };
+
+        var formData = DoneIt.formToData('#confirm');
+
+        var errors = validate(formData, constraints, {fullMessages: false})
+
+        if (errors == undefined && cognitoUser) {
+            cognitoUser.confirmRegistration(formData['confirmation_code'], true, function(err, result) {
+                DoneIt.hideIndicator();
+                DoneIt.closeModal('.popup-confirm', true)
+                if (err) {
+                    DoneIt.alert(err);
+                    return;
+                }
+                console.log('call result: ' + result);
+            });
+        } else {
+            // show form errors
+            DoneIt.hideIndicator();
+
+            var count = 0;
+            for (var key in errors) {
+                if(count) break;
+                // skip loop if the property is from prototype
+                if (!errors.hasOwnProperty(key)) continue;
+                msgs = errors[key]
+                var messages = ''
+                for(var i in msgs) {
+                    messages += '<p>'+msgs[i]+'</p>'
+                }
+                var field = $$('input[name="'+key+'"]');
+                var popoverHTML = '<div class="popover">'+
+                                  '<div class="popover-inner">'+
+                                    '<div class="content-block">'+
+                                    messages
+                                    '</div>'+
+                                  '</div>'+
+                                '</div>'
+                DoneIt.popover(popoverHTML, field);
+                count++;
+            }
+        }
+
+    });
 })
 
 // Option 2. Using one 'pageInit' event handler for all pages:
