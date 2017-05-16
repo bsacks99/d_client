@@ -84,8 +84,9 @@ DoneIt.onPageInit('sign_up', function (page) {
                 presence: {message: "Please confirm password"},
                 equality: "password"
             }
+            
         };
-
+		DoneIt.hideIndicator();
         var formData = DoneIt.formToData('#sign_up');
 
         var errors = validate(formData, constraints, {fullMessages: false})
