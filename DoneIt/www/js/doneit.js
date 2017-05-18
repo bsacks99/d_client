@@ -20,6 +20,7 @@ $$(document).on('deviceready', function() {
 // Now we need to run the code that will be executed only for About page.
 
 // Option 1. Using page callback for page (for "about" page in this case) (recommended way):
+
 DoneIt.onPageInit('about', function (page) {
 
 
@@ -30,6 +31,21 @@ DoneIt.onPageInit('add_task', function (page) {
 
 })
 
+DoneIt.onPageInit('login-screen', function (page) {
+  var pageContainer = $$(page.container);
+  pageContainer.find('.list-button').on('click', function () {
+    var username = pageContainer.find('input[name="username"]').val();
+    var password = pageContainer.find('input[name="password"]').val();
+    // Handle username and password
+    DoneIt.alert('Username: ' + username + ', Password: ' + password, function () {
+      mainView.goBack();
+    });
+  });
+});     
+DoneIt.onPageInit('index', function (page) {
+
+
+})
 
 DoneIt.onPageInit('tasks', function (page) {
 
