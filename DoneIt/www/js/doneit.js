@@ -5,6 +5,58 @@ var DoneIt = new Framework7();
 // If we need to use custom DOM library, let's save it to $$ variable:
 var $$ = Dom7;
 
+AWSCognito.config.region = 'us-east-1';
+AWSCognito.config.credentials = new AWS.CognitoIdentityCredentials({
+    IdentityPoolId: 'us-east-1:418de104-0559-4896-9217-83e02d33ee15'
+});
+
+var poolData = { 
+    UserPoolId : 'us-east-1_xdOMAneGm',
+    ClientId : '7ptcuuo7ui75r2rhlenl8svl6q'
+};
+var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
+
+var cognitoUser = null;
+
+var checkAuthorizedUser = function() {
+
+    return false
+    cognitoUser = userPool.getCurrentUser();
+    console.log(cognitoUser)
+    if (cognitoUser != null) {
+        cognitoUser.getSession(function(err, session) {
+            if (err) {
+                DoneIt.alert(err);
+                return false;
+            }
+            console.log('session validity: ' + session.isValid());
+
+            // NOTE: getSession must be called to authenticate user before calling getUserAttributes
+            cognitoUser.getUserAttributes(function(err, attributes) {
+                if (err) {
+                    DoneIt.alert(err);
+                } else {
+                    // Do something with attributes
+                }
+            });
+
+            AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+                IdentityPoolId : '...', // your identity pool id here
+                Logins : {
+                    // Change the key below according to the specific region your user pool is in.
+                    'cognito-idp.us-east-1.amazonaws.com/us-east-1_xdOMAneGm' : session.getIdToken().getJwtToken()
+                }
+            });
+
+            return true;
+            // Instantiate aws sdk service objects now that the credentials have been updated.
+            // example: var s3 = new AWS.S3();
+
+        });
+    }
+    return false;
+}
+
 // Add view
 var mainView = DoneIt.addView('.view-main', {
     // Because we want to use dynamic navbar, we need to enable it for this view:
@@ -31,24 +83,46 @@ DoneIt.onPageInit('add_task', function (page) {
 
 })
 
-DoneIt.onPageInit('login-screen', function (page) {
-  var pageContainer = $$(page.container);
-  pageContainer.find('.list-button').on('click', function () {
-    var username = pageContainer.find('input[name="username"]').val();
-    var password = pageContainer.find('input[name="password"]').val();
-    // Handle username and password
-    DoneIt.alert('Username: ' + username + ', Password: ' + password, function () {
-      mainView.goBack();
-    });
-  });
-});     
-DoneIt.onPageInit('index', function (page) {
+DoneIt.onPageInit('login', function (page) {
 
+  // var pageContainer = $$(page.container);
+  // pageContainer.find('.list-button').on('click', function () {
+  //   var username = pageContainer.find('input[name="username"]').val();
+  //   var password = pageContainer.find('input[name="password"]').val();
+  //   // Handle username and password
+  //   DoneIt.alert('Username: ' + username + ', Password: ' + password, function () {
+  //     mainView.goBack();
+  //   });
+  // });
+});  
+
+DoneIt.onPageInit('index', function (page) {
+    
+    if(!checkAuthorizedUser()) {
+        mainView.router.loadPage('login.html')
+    }
 
 })
 
 DoneIt.onPageInit('tasks', function (page) {
 
+    if(!checkAuthorizedUser()) {
+        console.log("loading login")
+        mainView.router.load({url: 'login.html'});
+    } else {
+        console.log(cognitoUser)
+    }
+
+})
+
+DoneIt.onPageAfterAnimation('tasks', function (page) {
+
+    if(!checkAuthorizedUser()) {
+        console.log("loading login")
+        mainView.router.load({url: 'login.html'});
+    } else {
+        console.log(cognitoUser)
+    }
 
 })
 
@@ -59,24 +133,6 @@ DoneIt.onPageInit('group', function (page) {
 
 DoneIt.onPageInit('sign_up', function (page) {
 
-    AWS.config.region = 'us-east-1'; // Region
-
-    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-        IdentityPoolId: 'us-east-1:418de104-0559-4896-9217-83e02d33ee15'
-    });
-
-    AWSCognito.config.region = 'us-east-1';
-    AWSCognito.config.credentials = new AWS.CognitoIdentityCredentials({
-        IdentityPoolId: 'us-east-1:418de104-0559-4896-9217-83e02d33ee15'
-    });
-
-    var poolData = { 
-        UserPoolId : 'us-east-1_xdOMAneGm',
-        ClientId : '7ptcuuo7ui75r2rhlenl8svl6q'
-    };
-    var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
-
-    var cognitoUser = false;
 
     $$('.sign-up-submit').on('click', function() {
 
@@ -217,19 +273,4 @@ DoneIt.onPageInit('sign_up', function (page) {
     });
 })
 
-// Option 2. Using one 'pageInit' event handler for all pages:
-$$(document).on('pageInit', function (e) {
-    // Get page data from event data
-    var page = e.detail.page;
-
-    if (page.name === 'about') {
-        // Following code will be executed for page with data-page attribute equal to "about"
-        DoneIt.alert('Here comes About page');
-    }
-})
-
-// Option 2. Using live 'pageInit' event handlers for each page
-$$(document).on('pageInit', '.page[data-page="about"]', function (e) {
-    // Following code will be executed for page with data-page attribute equal to "about"
-    DoneIt.alert('Here comes About page');
-})
+DoneIt.init()
