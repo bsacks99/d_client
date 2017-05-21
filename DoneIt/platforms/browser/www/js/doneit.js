@@ -20,42 +20,87 @@ var cognitoUser = null;
 
 var checkAuthorizedUser = function() {
 
-    return false
+    var session = null
     cognitoUser = userPool.getCurrentUser();
-    console.log(cognitoUser)
+
     if (cognitoUser != null) {
-        cognitoUser.getSession(function(err, session) {
+        cognitoUser.getSession(function(err, sess) {
             if (err) {
-                DoneIt.alert(err);
+                console.log(err);
                 return false;
             }
-            console.log('session validity: ' + session.isValid());
+
+            session = sess
+            console.log('session validity: ' + sess.isValid());
 
             // NOTE: getSession must be called to authenticate user before calling getUserAttributes
             cognitoUser.getUserAttributes(function(err, attributes) {
                 if (err) {
-                    DoneIt.alert(err);
+                    console.log(err);
                 } else {
                     // Do something with attributes
                 }
             });
 
             AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-                IdentityPoolId : '...', // your identity pool id here
+                IdentityPoolId : 'us-east-1:418de104-0559-4896-9217-83e02d33ee15', // your identity pool id here
                 Logins : {
                     // Change the key below according to the specific region your user pool is in.
-                    'cognito-idp.us-east-1.amazonaws.com/us-east-1_xdOMAneGm' : session.getIdToken().getJwtToken()
+                    'cognito-idp.us-east-1.amazonaws.com/us-east-1_xdOMAneGm' : sess.getIdToken().getJwtToken()
                 }
             });
-
-            return true;
-            // Instantiate aws sdk service objects now that the credentials have been updated.
-            // example: var s3 = new AWS.S3();
-
         });
     }
-    return false;
+    try {
+        if(session.isValid()) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch(e) {
+        return false;
+    }
 }
+
+var displayFormErrors = function(errors) {
+    var count = 0;
+    for (var key in errors) {
+        if(count) break;
+        // skip loop if the property is from prototype
+        if (!errors.hasOwnProperty(key)) continue;
+        msgs = errors[key]
+        var messages = ''
+        for(var i in msgs) {
+            messages += '<p>'+msgs[i]+'</p>'
+        }
+        var field = $$('input[name="'+key+'"]');
+        var popoverHTML = '<div class="popover">'+
+                          '<div class="popover-inner">'+
+                            '<div class="content-block">'+
+                            messages
+                            '</div>'+
+                          '</div>'+
+                        '</div>'
+        DoneIt.popover(popoverHTML, field);
+        count++;
+    }
+}
+
+//- One group, three buttons
+$$('.main-menu').on('click', function () {
+    var target = this;
+    var buttons = [
+        {
+            text: 'Log Out',
+            bold: true,
+            onClick: function () {
+                cognitoUser.signOut();
+                mainView.router.load({url: 'login.html'});
+            }
+        }
+    ];
+    DoneIt.actions(target, buttons);
+});
 
 // Add view
 var mainView = DoneIt.addView('.view-main', {
@@ -69,9 +114,82 @@ $$(document).on('deviceready', function() {
 });
 
 
-// Now we need to run the code that will be executed only for About page.
+DoneIt.onPageAfterAnimation('index tasks add_task group', function (page) {
+    if(!checkAuthorizedUser()) {
+        console.log("loading login")
+        mainView.router.load({url: 'login.html', query: {req: page.url}});
+    } else {
+        console.log(cognitoUser)
+    }
 
-// Option 1. Using page callback for page (for "about" page in this case) (recommended way):
+})
+
+DoneIt.onPageInit('login', function (page) {
+
+    redirect_to = page.query.req
+
+    $$('.login-submit').on('click', function() {
+
+        DoneIt.showIndicator();
+        var constraints = {
+            username: {
+                presence: {message: "Please provide an email address"},
+                email: {
+                  message: "Please provide a valid email address"
+                }
+            },
+            password: {
+                presence: {message: "Please provide a password"}
+            }
+            
+        };
+
+        var formData = DoneIt.formToData('#login');
+
+        var errors = validate(formData, constraints, {fullMessages: false})
+
+        if (errors == undefined) {
+
+            var authenticationData = {
+                Username : formData['username'],
+                Password : formData['password'],
+            };
+            var authenticationDetails = new AWSCognito.CognitoIdentityServiceProvider.AuthenticationDetails(authenticationData);
+            var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
+            var userData = {
+                Username : formData['username'],
+                Pool : userPool
+            };
+            cognitoUser = new AWSCognito.CognitoIdentityServiceProvider.CognitoUser(userData);
+            cognitoUser.authenticateUser(authenticationDetails, {
+                onSuccess: function (result) {
+                    DoneIt.hideIndicator();
+                    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+                        IdentityPoolId : 'us-east-1:418de104-0559-4896-9217-83e02d33ee15', // your identity pool id here
+                        Logins : {
+                            // Change the key below according to the specific region your user pool is in.
+                            'cognito-idp.us-east-1.amazonaws.com/us-east-1_xdOMAneGm' : result.getIdToken().getJwtToken()
+                        }
+                    });
+                    mainView.router.load({url: redirect_to});
+                },
+
+                onFailure: function(err) {
+                    DoneIt.hideIndicator();
+                    console.log(err)
+                    var errors = {'password': ["We were unable to sign you in. Please check your username and password."]}
+                    displayFormErrors(errors)
+                },
+
+            });            
+        } else {
+            // show form errors
+            DoneIt.hideIndicator();
+
+            displayFormErrors(errors)
+        }
+    })
+}) 
 
 DoneIt.onPageInit('about', function (page) {
 
@@ -83,51 +201,15 @@ DoneIt.onPageInit('add_task', function (page) {
 
 })
 
-DoneIt.onPageInit('login', function (page) {
-
-  // var pageContainer = $$(page.container);
-  // pageContainer.find('.list-button').on('click', function () {
-  //   var username = pageContainer.find('input[name="username"]').val();
-  //   var password = pageContainer.find('input[name="password"]').val();
-  //   // Handle username and password
-  //   DoneIt.alert('Username: ' + username + ', Password: ' + password, function () {
-  //     mainView.goBack();
-  //   });
-  // });
-});  
-
 DoneIt.onPageInit('index', function (page) {
-    
-    if(!checkAuthorizedUser()) {
-        mainView.router.loadPage('login.html')
-    }
 
 })
 
 DoneIt.onPageInit('tasks', function (page) {
 
-    if(!checkAuthorizedUser()) {
-        console.log("loading login")
-        mainView.router.load({url: 'login.html'});
-    } else {
-        console.log(cognitoUser)
-    }
-
-})
-
-DoneIt.onPageAfterAnimation('tasks', function (page) {
-
-    if(!checkAuthorizedUser()) {
-        console.log("loading login")
-        mainView.router.load({url: 'login.html'});
-    } else {
-        console.log(cognitoUser)
-    }
-
 })
 
 DoneIt.onPageInit('group', function (page) {
-
 
 })
 
@@ -158,7 +240,7 @@ DoneIt.onPageInit('sign_up', function (page) {
             }
             
         };
-		DoneIt.hideIndicator();
+
         var formData = DoneIt.formToData('#sign_up');
 
         var errors = validate(formData, constraints, {fullMessages: false})
@@ -195,27 +277,7 @@ DoneIt.onPageInit('sign_up', function (page) {
             // show form errors
             DoneIt.hideIndicator();
 
-            var count = 0;
-            for (var key in errors) {
-                if(count) break;
-                // skip loop if the property is from prototype
-                if (!errors.hasOwnProperty(key)) continue;
-                msgs = errors[key]
-                var messages = ''
-                for(var i in msgs) {
-                    messages += '<p>'+msgs[i]+'</p>'
-                }
-                var field = $$('input[name="'+key+'"]');
-                var popoverHTML = '<div class="popover">'+
-                                  '<div class="popover-inner">'+
-                                    '<div class="content-block">'+
-                                    messages
-                                    '</div>'+
-                                  '</div>'+
-                                '</div>'
-                DoneIt.popover(popoverHTML, field);
-                count++;
-            }
+            displayFormErrors(errors)
 
         }
     });
@@ -247,27 +309,7 @@ DoneIt.onPageInit('sign_up', function (page) {
             // show form errors
             DoneIt.hideIndicator();
 
-            var count = 0;
-            for (var key in errors) {
-                if(count) break;
-                // skip loop if the property is from prototype
-                if (!errors.hasOwnProperty(key)) continue;
-                msgs = errors[key]
-                var messages = ''
-                for(var i in msgs) {
-                    messages += '<p>'+msgs[i]+'</p>'
-                }
-                var field = $$('input[name="'+key+'"]');
-                var popoverHTML = '<div class="popover">'+
-                                  '<div class="popover-inner">'+
-                                    '<div class="content-block">'+
-                                    messages
-                                    '</div>'+
-                                  '</div>'+
-                                '</div>'
-                DoneIt.popover(popoverHTML, field);
-                count++;
-            }
+            displayFormErrors(errors)
         }
 
     });
