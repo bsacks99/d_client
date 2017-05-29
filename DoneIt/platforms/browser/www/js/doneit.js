@@ -1,6 +1,12 @@
 // Initialize app
 var DoneIt = new Framework7();
 
+// Add view
+var mainView = DoneIt.addView('.view-main', {
+    // Because we want to use dynamic navbar, we need to enable it for this view:
+    dynamicNavbar: true
+});
+
 
 // If we need to use custom DOM library, let's save it to $$ variable:
 var $$ = Dom7;
@@ -16,51 +22,12 @@ var poolData = {
 };
 var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
 
-var cognitoUser = null;
+var cognitoUser = userPool.getCurrentUser()
 
-var checkAuthorizedUser = function() {
-
-    var session = null
-    cognitoUser = userPool.getCurrentUser();
-
-    if (cognitoUser != null) {
-        cognitoUser.getSession(function(err, sess) {
-            if (err) {
-                console.log(err);
-                return false;
-            }
-
-            session = sess
-            console.log('session validity: ' + sess.isValid());
-
-            // NOTE: getSession must be called to authenticate user before calling getUserAttributes
-            cognitoUser.getUserAttributes(function(err, attributes) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    // Do something with attributes
-                }
-            });
-
-            AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-                IdentityPoolId : 'us-east-1:418de104-0559-4896-9217-83e02d33ee15', // your identity pool id here
-                Logins : {
-                    // Change the key below according to the specific region your user pool is in.
-                    'cognito-idp.us-east-1.amazonaws.com/us-east-1_xdOMAneGm' : sess.getIdToken().getJwtToken()
-                }
-            });
-        });
-    }
-    try {
-        if(session.isValid()) {
-            return true;
-        } else {
-            return false;
-        }
-    } catch(e) {
-        return false;
-    }
+if (cognitoUser === null) {
+    mainView.router.load({url: 'login.html'});
 }
+
 
 var displayFormErrors = function(errors) {
     var count = 0;
@@ -86,6 +53,67 @@ var displayFormErrors = function(errors) {
     }
 }
 
+var renderGroupView = function (context) {
+    var template = $$('#group_template').html()
+ 
+    var compiledTemplate = Template7.compile(template)
+    var output = compiledTemplate(context)
+
+    $$('#group_view').html(output)
+}
+
+var initGroupView = function(session) {
+    DoneIt.showIndicator();
+    console.log("Initialize the Amazon API gateway client")
+    var group_id = null
+    var group_name = null
+    var apigClient = apigClientFactory.newClient();
+    var token = session.getIdToken().getJwtToken()
+
+    var template_context = {
+        "group_action_header": "Create Your Group &amp; Invite A Member",
+        "group_button_label": "Create Group &amp; Send Invite",
+        "group_name": group_name,
+        "show_group_input": true
+    }
+
+    apigClient.doneItMembersGet({'email': cognitoUser.username, "Authorization": token }, {}, {}).then(function(result){
+
+        if(result.status == 200) {
+            try {
+                group_id = result.data.group_id
+            } catch (e) {
+                console.log(e)
+            }                                
+
+            apigClient.doneItGroupsGet({'group_id': group_id, "Authorization": token }, {}, {}).then(function(result){
+
+                if(result.status == 200) {
+                    try {
+                        group_name = result.data.group_name
+
+                        template_context.group_action_header = "Invite A Member"
+                        template_context.group_button_label = "Send Invite"
+                        template_context.group_name = group_name
+                        template_context.show_group_input = false
+                    } catch (e) {
+                        console.log(e)
+                    }             
+                    DoneIt.hideIndicator()                   
+                    renderGroupView(template_context)
+                    
+                } 
+            }).catch( function(result){
+                DoneIt.hideIndicator()
+                renderGroupView(template_context)
+            });
+        } 
+    }).catch( function(result){
+        DoneIt.hideIndicator()
+        renderGroupView(template_context)
+    });
+}
+
 //- One group, three buttons
 $$('.main-menu').on('click', function () {
     var target = this;
@@ -94,18 +122,23 @@ $$('.main-menu').on('click', function () {
             text: 'Log Out',
             bold: true,
             onClick: function () {
-                cognitoUser.signOut();
+                try {
+                    var poolData = { 
+                        UserPoolId : 'us-east-1_xdOMAneGm',
+                        ClientId : '7ptcuuo7ui75r2rhlenl8svl6q'
+                    };
+                    var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
+                    cognitoUser = userPool.getCurrentUser();
+                    cognitoUser.signOut();
+                } catch(e) {
+                    console.log(e)
+                }
+
                 mainView.router.load({url: 'login.html'});
             }
         }
     ];
     DoneIt.actions(target, buttons);
-});
-
-// Add view
-var mainView = DoneIt.addView('.view-main', {
-    // Because we want to use dynamic navbar, we need to enable it for this view:
-    dynamicNavbar: true
 });
 
 // Handle Cordova Device Ready Event
@@ -115,19 +148,65 @@ $$(document).on('deviceready', function() {
 
 
 DoneIt.onPageAfterAnimation('index tasks add_task group', function (page) {
-    if(!checkAuthorizedUser()) {
-        console.log("loading login")
-        mainView.router.load({url: 'login.html', query: {req: page.url}});
-    } else {
-        console.log(cognitoUser)
-    }
 
+    cognitoUser = userPool.getCurrentUser();
+
+    if (cognitoUser != null) {
+        cognitoUser.getSession(function(err, session) {
+            if (err) {
+                console.log(err);
+                mainView.router.load({url: 'login.html', query: {req: page.url}});
+                return false;
+            }
+
+            console.log('session validity: ' + session.isValid());
+            if(session.isValid()) {
+                switch(page.name) {
+                    case 'group':
+                        initGroupView(session)
+                        break
+                }
+            } else {
+                mainView.router.load({url: 'login.html', query: {req: page.url}});
+            }    
+
+            // NOTE: getSession must be called to authenticate user before calling getUserAttributes
+            // cognitoUser.getUserAttributes(function(err, result) {
+            //     if (err) {
+            //         console.log(err);
+            //     } else {
+            //     for (i = 0; i < result.length; i++) {
+            //         console.log('attribute ' + result[i].getName() + ' has value ' + result[i].getValue());
+            //     }
+            //     }
+            // });
+
+            // AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            //     IdentityPoolId : 'us-east-1:418de104-0559-4896-9217-83e02d33ee15', // your identity pool id here
+            //     Logins : {
+            //         // Change the key below according to the specific region your user pool is in.
+            //         'cognito-idp.us-east-1.amazonaws.com/us-east-1_xdOMAneGm' : sess.getIdToken().getJwtToken()
+            //     }
+            // });
+
+        });
+    }
+    // if(!checkAuthorizedUser()) {
+    //     console.log("loading login")
+    //     mainView.router.load({url: 'login.html', query: {req: page.url}});
+    // } else {
+    //     console.log(page)
+
+    // }
 })
 
 DoneIt.onPageInit('login', function (page) {
 
-    redirect_to = page.query.req
-
+    var redirect_to = 'index.html'
+    if (page.query.req) {
+        redirect_to = page.query.req
+    }
+    
     $$('.login-submit').on('click', function() {
 
         DoneIt.showIndicator();
@@ -211,6 +290,41 @@ DoneIt.onPageInit('tasks', function (page) {
 
 DoneIt.onPageInit('group', function (page) {
 
+    $$('.group-submit').on('click', function() {
+
+        DoneIt.showIndicator();
+
+        var constraints = {
+            name: {
+                presence: {message: "Please provide a group name"},
+                format: {
+                    pattern: /[a-zA-Z0-9-_.]{4,50}$/,
+                    message: "Group names must be between 4 and 50 characters long, they can contain letters, numbers, dashes, underscores, and periods."
+                }
+            },
+            user: {
+                presence: {message: "Please provide an email address"},
+                email: {
+                  message: "Please provide a valid email address"
+                }
+            }
+        };
+
+        var formData = DoneIt.formToData('#group');
+
+        var errors = validate(formData, constraints, {fullMessages: false})
+
+        if (errors == undefined) {
+            // Group is good
+
+        } else {
+            // show form errors
+            DoneIt.hideIndicator();
+
+            displayFormErrors(errors)
+
+        }
+    });
 })
 
 DoneIt.onPageInit('sign_up', function (page) {
