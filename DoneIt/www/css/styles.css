@@ -13,7 +13,10 @@
 .statusbar-overlay {
     background: #000000;
 }
-/*h1,h2,h3,   ,h5,h6*/
-h4 {
+
+h2, h3, h4, p {
+  color: #607d8b;
+}
+.content-block-title{
   color: #607d8b;
 }
