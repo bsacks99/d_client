@@ -136,7 +136,14 @@ $$('.main-menu').on('click', function () {
 
                 mainView.router.load({url: 'login.html'});
             }
-        }
+        },
+        {
+            text: 'Add New DoneIt', 
+            bold: true,
+            onClick: function () {
+                mainView.router.load({url: 'task_add.html'});
+            }
+        }    
     ];
     DoneIt.actions(target, buttons);
 });
@@ -147,7 +154,7 @@ $$(document).on('deviceready', function() {
 });
 
 
-DoneIt.onPageAfterAnimation('index tasks add_task group', function (page) {
+DoneIt.onPageAfterAnimation('index tasks add_task group task log', function (page) {
 
     cognitoUser = userPool.getCurrentUser();
 
@@ -250,7 +257,7 @@ DoneIt.onPageInit('login', function (page) {
                             'cognito-idp.us-east-1.amazonaws.com/us-east-1_xdOMAneGm' : result.getIdToken().getJwtToken()
                         }
                     });
-                    mainView.router.load({url: redirect_to});
+                    mainView.router.load({url: 'task.html'});
                 },
 
                 onFailure: function(err) {

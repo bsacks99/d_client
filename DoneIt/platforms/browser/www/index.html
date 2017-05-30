@@ -41,7 +41,6 @@
             <div class="navbar">
                 <div class="navbar-inner">
                     <div class="left">
-                    &nbsp;
                     </div>
 
                     <div class="center">DoneIt</div>
@@ -59,9 +58,9 @@
                     <div data-page="index" class="page">
                         <div class="page-content">
                             <div class="content-block">
-                                <p style="color:#607d8b;text-align:center">Hello.</p>
+                                <h2 style="color:#607d8b;text-align:center">Hello.</h2>
                                 <p style="color:#607d8b;text-align:center">It is nice to meet you.</p>
-                                <p style="color:#607d8b;text-align:center">I am DoneIt, your new task managing app.</p> <br> <br>
+                                <p style="color:#607d8b;text-align:center">I am DoneIt, the only task tracking app you will ever need.</p> <br> <br>
                                 <!-- Link to another page -->
                                 <a href="about.html" data-view=".view-main">About Me, Yes I am Awesome!</a> <br> <br>
                                 <a href="sign_up.html" data-view=".view-main">Create an Account, all you need is an e-mail address.</a> <br> <br>
@@ -75,9 +74,9 @@
             <div class="toolbar">
                 <div class="toolbar-inner">
                     <!-- Toolbar links -->
-                    <a href="task_add.html" class="link">Add a Task</a>
-                    <a href="group.html" class="link">Groups</a>
-                    <a href="task.html" class="link">Tasks</a>
+                    <a href="task.html" class="button button-raised">Done Its</a>
+  					<a href="group.html" class="button button-raised">Group</a>
+  					<a href="task_history.html" class="button button-raised">History</a>
                 </div>
             </div>
         </div>
@@ -102,7 +101,7 @@
     <script type="text/javascript" src="js/template7.min.js"></script>
     <script type="text/javascript" src="js/doneit.js"></script>
     <script id="group_template" type="text/template7">
-        <h2>Group</h2>
+        <h2 style="color:#607d8b">Group</h2>
         {{#unless show_group_input}}
         <div class="content-block">
             <h3>{{group_name}}</h3>
