@@ -207,6 +207,7 @@ var initGroupView = function(session) {
         if(result.status == 200) {
             try {
                 group_id = result.data.group_id
+                localStorage.setItem('group_id', group_id);
             } catch (e) {
                 console.log(e)
             }                                
@@ -216,6 +217,7 @@ var initGroupView = function(session) {
                 if(result.status == 200) {
                     try {
                         group_name = result.data.group_name
+                        localStorage.setItem('group_name', group_name);
 
                         template_context.group_action_header = "Invite A Member"
                         template_context.group_button_label = "Send Invite"
@@ -241,6 +243,69 @@ var initGroupView = function(session) {
         DoneIt.hideIndicator()
         renderGroupView(template_context, session)
     });
+}
+
+var GroupCheckLoop = function() {
+    cognitoUser = userPool.getCurrentUser();
+    if (cognitoUser != null) {
+        cognitoUser.getSession(function(err, session) {
+            if(session.isValid()) {
+                if(localStorage.getItem('group_id') == null) {
+                    var group_name = null
+                    var group_id = null
+                    var apigClient = apigClientFactory.newClient()
+                    var token = session.getIdToken().getJwtToken()
+
+                    apigClient.doneItMembersGet({'email': cognitoUser.username, "Authorization": token }, {}, {}).then(function(result){
+
+                        if(result.status == 200) {
+                            try {
+                                group_id = result.data.group_id
+                                localStorage.setItem('group_id', group_id);
+                            } catch (e) {
+                                console.log(e)
+                            }                                
+
+                            apigClient.doneItGroupsGet({'group_id': group_id, "Authorization": token }, {}, {}).then(function(result){
+
+                                if(result.status == 200) {
+                                    try {
+                                        group_name = result.data.group_name
+                                        localStorage.setItem('group_name', group_name);
+
+                                    } catch (e) {
+                                        console.log(e)
+                                    }                                             
+                                } 
+                            }).catch( function(result){
+                                console.log(result)
+                            });
+                        } 
+                    }).catch( function(result){
+
+                        apigClient.inviteMemberGet({'email': cognitoUser.username, "Authorization": token }, {}, {}).then(function(result){
+
+                                if(result.status == 200) {
+                                    try {
+                                        group_id = result.data.group_id
+                                        console.log("Invited to Join: "+ group_id)
+                                    } catch (e) {
+                                        console.log(e)
+                                    }                                             
+                                } 
+                            }).catch( function(result){
+                                setTimeout(function(){
+                                    if(localStorage.getItem('group_id') == null) {
+                                        GroupCheckLoop();
+                                    }      
+                                }, 3000);
+                                console.log(result)
+                            });
+                    });
+                }
+            }   
+        });
+    }
 }
 
 //- One group, three buttons
@@ -280,6 +345,11 @@ $$('.main-menu').on('click', function () {
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
     console.log("Device is ready!");
+    setTimeout(function(){
+        if(localStorage.getItem('group_id') == null) {
+            GroupCheckLoop();
+        }      
+    }, 1000);
 });
 
 
@@ -305,35 +375,8 @@ DoneIt.onPageAfterAnimation('index tasks add_task group task log', function (pag
             } else {
                 mainView.router.load({url: 'login.html', query: {req: page.url}});
             }    
-
-            // NOTE: getSession must be called to authenticate user before calling getUserAttributes
-            // cognitoUser.getUserAttributes(function(err, result) {
-            //     if (err) {
-            //         console.log(err);
-            //     } else {
-            //     for (i = 0; i < result.length; i++) {
-            //         console.log('attribute ' + result[i].getName() + ' has value ' + result[i].getValue());
-            //     }
-            //     }
-            // });
-
-            // AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-            //     IdentityPoolId : 'us-east-1:418de104-0559-4896-9217-83e02d33ee15', // your identity pool id here
-            //     Logins : {
-            //         // Change the key below according to the specific region your user pool is in.
-            //         'cognito-idp.us-east-1.amazonaws.com/us-east-1_xdOMAneGm' : sess.getIdToken().getJwtToken()
-            //     }
-            // });
-
         });
     }
-    // if(!checkAuthorizedUser()) {
-    //     console.log("loading login")
-    //     mainView.router.load({url: 'login.html', query: {req: page.url}});
-    // } else {
-    //     console.log(page)
-
-    // }
 })
 
 DoneIt.onPageInit('login', function (page) {
@@ -529,5 +572,3 @@ DoneIt.onPageInit('sign_up', function (page) {
 
     });
 })
-
-DoneIt.init()
