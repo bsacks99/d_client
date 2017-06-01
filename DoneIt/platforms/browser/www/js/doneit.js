@@ -153,6 +153,8 @@ var renderGroupView = function (context, session) {
                     renderGroupView(context, session)
                 });
             } else {
+                var apigClient = apigClientFactory.newClient()
+                var token = session.getIdToken().getJwtToken()
                 body = {
                     "group_id": context.group_id,
                     "member": formData['user']
