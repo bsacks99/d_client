@@ -86,7 +86,7 @@ apigClientFactory.newClient = function (config) {
     apigClient.doneItGroupsGet = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
-        apiGateway.core.utils.assertParametersDefined(params, ['Authorization'], ['body']);
+        apiGateway.core.utils.assertParametersDefined(params, ['Authorization', 'group_id'], ['body']);
         
         var doneItGroupsGetRequest = {
             verb: 'get'.toUpperCase(),
@@ -104,12 +104,12 @@ apigClientFactory.newClient = function (config) {
     apigClient.doneItGroupsPost = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
-        apiGateway.core.utils.assertParametersDefined(params, ['Authorization'], ['body']);
+        apiGateway.core.utils.assertParametersDefined(params, ['Authorization', 'body'], ['body']);
         
         var doneItGroupsPostRequest = {
             verb: 'post'.toUpperCase(),
             path: pathComponent + uritemplate('/DoneItGroups').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
-            headers: apiGateway.core.utils.parseParametersToObject(params, ['Authorization']),
+            headers: apiGateway.core.utils.parseParametersToObject(params, ['Authorization', ]),
             queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
             body: body
         };
@@ -158,12 +158,12 @@ apigClientFactory.newClient = function (config) {
     apigClient.doneItMembersPost = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
-        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        apiGateway.core.utils.assertParametersDefined(params, ['Authorization', 'body'], ['body']);
         
         var doneItMembersPostRequest = {
             verb: 'post'.toUpperCase(),
             path: pathComponent + uritemplate('/DoneItMembers').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
-            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            headers: apiGateway.core.utils.parseParametersToObject(params, ['Authorization', ]),
             queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
             body: body
         };
@@ -188,6 +188,42 @@ apigClientFactory.newClient = function (config) {
         
         
         return apiGatewayClient.makeRequest(doneItMembersOptionsRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.inviteMemberPost = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, ['Authorization', 'body'], ['body']);
+        
+        var inviteMemberPostRequest = {
+            verb: 'post'.toUpperCase(),
+            path: pathComponent + uritemplate('/InviteMember').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, ['Authorization', ]),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(inviteMemberPostRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.inviteMemberOptions = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        
+        var inviteMemberOptionsRequest = {
+            verb: 'options'.toUpperCase(),
+            path: pathComponent + uritemplate('/InviteMember').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(inviteMemberOptionsRequest, authType, additionalParams, config.apiKey);
     };
     
 

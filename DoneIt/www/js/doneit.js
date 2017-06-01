@@ -53,13 +53,134 @@ var displayFormErrors = function(errors) {
     }
 }
 
-var renderGroupView = function (context) {
+var renderGroupView = function (context, session) {
     var template = $$('#group_template').html()
  
     var compiledTemplate = Template7.compile(template)
     var output = compiledTemplate(context)
 
     $$('#group_view').html(output)
+
+    $$('.group-submit').on('click', function() {
+
+        DoneIt.showIndicator();
+
+        var constraints = {
+            user: {
+                email: {
+                  message: "Please provide a valid email address"
+                }
+            }
+        };
+
+        if(context.show_group_input) {
+            constraints['name'] = {
+                format: {
+                    pattern: /[a-zA-Z0-9-_.]{4,50}$/,
+                    message: "Group names must be between 4 and 50 characters long, they can contain letters, numbers, dashes, underscores, and periods."
+                }
+            }
+        }
+
+        var formData = DoneIt.formToData('#group');
+
+        var errors = validate(formData, constraints, {fullMessages: false})
+
+        if (errors == undefined) {
+            if(context.show_group_input) {
+
+                body = {
+                    "name": formData['name'],
+                    "creator": cognitoUser.username
+                }
+
+                var apigClient = apigClientFactory.newClient()
+                var token = session.getIdToken().getJwtToken()
+
+                apigClient.doneItGroupsPost({"Authorization": token }, body, {}).then(function(result){
+
+                    if(result.status == 200) {
+                        try {
+                            group_id = result.data.group_id
+                            group_name = formData['name']
+
+                            body = {
+                                "group_id": group_id,
+                                "member": cognitoUser.username
+                            }
+
+                            apigClient.doneItMembersPost({"Authorization": token }, body, {}).then(function(result){
+
+                                if(result.status == 200) {
+                                    console.log("created group membership")            
+                                } 
+                            }).catch( function(result){
+                                console.log(result)
+                            });
+
+                            body = {
+                                "group_id": group_id,
+                                "member": formData['user']
+                            }
+                            apigClient.inviteMemberPost({"Authorization": token }, body, {}).then(function(result){
+
+                                if(result.status == 200) {
+                                    console.log("invitation sent")   
+                                    DoneIt.addNotification({
+                                        title: 'Invitation Sent',
+                                        message: 'You have invited ' + formData['user'] + ' to join ' + group_name
+                                    });         
+                                } 
+                            }).catch( function(result){
+                                console.log(result)
+                            });
+
+                            context.group_action_header = "Invite A Member"
+                            context.group_button_label = "Send Invite"
+                            context.group_name = group_name
+                            context.group_id = group_id
+                            context.show_group_input = false
+                        } catch (e) {
+                            console.log(e)
+                        }             
+                        DoneIt.hideIndicator()                   
+                        renderGroupView(context, session)
+                        
+                    } 
+                }).catch( function(result){
+                    console.log(result)
+                    DoneIt.hideIndicator()
+                    renderGroupView(context, session)
+                });
+            } else {
+                body = {
+                    "group_id": context.group_id,
+                    "member": formData['user']
+                }
+                apigClient.inviteMemberPost({"Authorization": token }, body, {}).then(function(result){
+
+                    if(result.status == 200) {
+                        console.log("invitation sent")   
+                        DoneIt.addNotification({
+                            title: 'Invitation Sent',
+                            message: 'You have invited ' + formData['user'] + ' to join ' + context.group_name
+                        });         
+                    } 
+                }).catch( function(result){
+                    console.log(result)
+                });
+                DoneIt.hideIndicator()                   
+                renderGroupView(context, session)
+            }
+
+        } else {
+            // show form errors
+            DoneIt.hideIndicator();
+
+            displayFormErrors(errors)
+
+        }
+    });
 }
 
 var initGroupView = function(session) {
@@ -67,6 +188,7 @@ var initGroupView = function(session) {
     console.log("Initialize the Amazon API gateway client")
     var group_id = null
     var group_name = null
+    var group_id = null
     var apigClient = apigClientFactory.newClient();
     var token = session.getIdToken().getJwtToken()
 
@@ -74,6 +196,7 @@ var initGroupView = function(session) {
         "group_action_header": "Create Your Group &amp; Invite A Member",
         "group_button_label": "Create Group &amp; Send Invite",
         "group_name": group_name,
+        "group_id": group_id,
         "show_group_input": true
     }
 
@@ -95,22 +218,26 @@ var initGroupView = function(session) {
                         template_context.group_action_header = "Invite A Member"
                         template_context.group_button_label = "Send Invite"
                         template_context.group_name = group_name
+                        template_context.group_id = group_id
                         template_context.show_group_input = false
+                        console.log(template_context)
                     } catch (e) {
                         console.log(e)
                     }             
                     DoneIt.hideIndicator()                   
-                    renderGroupView(template_context)
+                    renderGroupView(template_context, session)
                     
                 } 
             }).catch( function(result){
+                console.log(result)
                 DoneIt.hideIndicator()
-                renderGroupView(template_context)
+                renderGroupView(template_context, session)
             });
         } 
     }).catch( function(result){
+        console.log(result)
         DoneIt.hideIndicator()
-        renderGroupView(template_context)
+        renderGroupView(template_context, session)
     });
 }
 
@@ -296,42 +423,7 @@ DoneIt.onPageInit('tasks', function (page) {
 })
 
 DoneIt.onPageInit('group', function (page) {
-
-    $$('.group-submit').on('click', function() {
-
-        DoneIt.showIndicator();
-
-        var constraints = {
-            name: {
-                presence: {message: "Please provide a group name"},
-                format: {
-                    pattern: /[a-zA-Z0-9-_.]{4,50}$/,
-                    message: "Group names must be between 4 and 50 characters long, they can contain letters, numbers, dashes, underscores, and periods."
-                }
-            },
-            user: {
-                presence: {message: "Please provide an email address"},
-                email: {
-                  message: "Please provide a valid email address"
-                }
-            }
-        };
-
-        var formData = DoneIt.formToData('#group');
-
-        var errors = validate(formData, constraints, {fullMessages: false})
-
-        if (errors == undefined) {
-            // Group is good
-
-        } else {
-            // show form errors
-            DoneIt.hideIndicator();
-
-            displayFormErrors(errors)
-
-        }
-    });
+    // main handling done in renderGroupView
 })
 
 DoneIt.onPageInit('sign_up', function (page) {
