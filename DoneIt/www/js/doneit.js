@@ -157,6 +157,7 @@ var renderGroupView = function (context, session) {
                 var token = session.getIdToken().getJwtToken()
                 body = {
                     "group_id": context.group_id,
+                    "creator": cognitoUser.username,
                     "member": formData['user']
                 }
                 apigClient.inviteMemberPost({"Authorization": token }, body, {}).then(function(result){
@@ -288,7 +289,21 @@ var GroupCheckLoop = function() {
                                 if(result.status == 200) {
                                     try {
                                         group_id = result.data.group_id
-                                        console.log("Invited to Join: "+ group_id)
+                                        group_name = result.data.group_name
+                                        creator = result.data.creator
+
+                                        console.log(creator + " invited to Join: "+ group_name + " group!")
+
+                                        DoneIt.addNotification({
+                                            message: creator + " invited to Join: "+ group_name + " group!",
+                                            button: {
+                                                text: 'Confirm',
+                                                color: 'grey-blue'
+                                            },
+                                            onClose: function () {
+                                                DoneIt.alert('Notification closed');
+                                            }
+                                        });                                        
                                     } catch (e) {
                                         console.log(e)
                                     }                                             
@@ -324,6 +339,7 @@ $$('.main-menu').on('click', function () {
                     var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
                     cognitoUser = userPool.getCurrentUser();
                     cognitoUser.signOut();
+                    localStorage.clear();
                 } catch(e) {
                     console.log(e)
                 }
@@ -346,6 +362,7 @@ $$('.main-menu').on('click', function () {
 $$(document).on('deviceready', function() {
     console.log("Device is ready!");
     setTimeout(function(){
+        console.log(localStorage.getItem('group_id'))
         if(localStorage.getItem('group_id') == null) {
             GroupCheckLoop();
         }      
