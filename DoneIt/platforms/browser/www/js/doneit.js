@@ -295,10 +295,11 @@ var GroupCheckLoop = function() {
                                         console.log(creator + " invited to Join: "+ group_name + " group!")
 
                                         DoneIt.addNotification({
+                                            title: 'Group Invitation',
                                             message: creator + " invited to Join: "+ group_name + " group!",
                                             button: {
                                                 text: 'Confirm',
-                                                color: 'grey-blue'
+                                                color: 'bluegray'
                                             },
                                             onClose: function () {
                                                 DoneIt.alert('Notification closed');
