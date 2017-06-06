@@ -292,11 +292,11 @@ var GroupCheckLoop = function() {
                                         group_name = result.data.group_name
                                         creator = result.data.creator
 
-                                        console.log(creator + " invited to Join: "+ group_name + " group!")
+                                        console.log(creator + " invited you to join: "+ group_name + " group!")
 
                                         DoneIt.addNotification({
                                             title: 'Group Invitation',
-                                            message: creator + " invited to Join: "+ group_name + " group!",
+                                            message: creator + " invited to you join: "+ group_name + " group!",
                                             button: {
                                                 text: 'Confirm',
                                                 color: 'bluegray'
