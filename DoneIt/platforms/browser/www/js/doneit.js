@@ -28,7 +28,6 @@ if (cognitoUser === null) {
     mainView.router.load({url: 'login.html'});
 }
 
-
 var displayFormErrors = function(errors) {
     var count = 0;
     for (var key in errors) {
@@ -291,20 +290,23 @@ var GroupCheckLoop = function() {
                                         group_id = result.data.group_id
                                         group_name = result.data.group_name
                                         creator = result.data.creator
-
-                                        console.log(creator + " invited to Join: "+ group_name + " group!")
-
-                                        DoneIt.addNotification({
-                                            title: 'Group Invitation',
-                                            message: creator + " invited to Join: "+ group_name + " group!",
-                                            button: {
-                                                text: 'Confirm',
-                                                color: 'bluegray'
+                                        
+                                        DoneIt.modal({
+                                            title:  'Group Invitation',
+                                            text: creator + " invited to you join: "+ group_name + " group!",
+                                            buttons: [{
+                                                text: 'Cancel',
+                                                onClick: function() {
+                                                    DoneIt.alert('You clicked first button!')
+                                                }
                                             },
-                                            onClose: function () {
-                                                DoneIt.alert('Notification closed');
-                                            }
-                                        });                                        
+                                            {
+                                                text: 'Accept',
+                                                onClick: function() {
+                                                    DoneIt.alert('You clicked second button!')
+                                                }
+                                            }]
+                                        })
                                     } catch (e) {
                                         console.log(e)
                                     }                                             
@@ -362,12 +364,21 @@ $$('.main-menu').on('click', function () {
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
     console.log("Device is ready!");
-    setTimeout(function(){
-        console.log(localStorage.getItem('group_id'))
-        if(localStorage.getItem('group_id') == null) {
-            GroupCheckLoop();
-        }      
-    }, 1000);
+    
+    cognitoUser = userPool.getCurrentUser();
+    if (cognitoUser != null) {
+        cognitoUser.getSession(function(err, session) {
+            if(session.isValid()) {
+                setTimeout(function(){
+                    console.log(localStorage.getItem('group_id'))
+                    if(localStorage.getItem('group_id') == null) {
+                        GroupCheckLoop();
+                    }      
+                }, 1000);
+            }
+        })
+    }
+
 });
 
 
@@ -447,6 +458,12 @@ DoneIt.onPageInit('login', function (page) {
                             'cognito-idp.us-east-1.amazonaws.com/us-east-1_xdOMAneGm' : result.getIdToken().getJwtToken()
                         }
                     });
+                    setTimeout(function(){
+                        console.log(localStorage.getItem('group_id'))
+                        if(localStorage.getItem('group_id') == null) {
+                            GroupCheckLoop();
+                        }      
+                    }, 1000);
                     mainView.router.load({url: 'task.html'});
                 },
 
