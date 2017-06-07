@@ -287,6 +287,7 @@ var GroupCheckLoop = function() {
 
                                 if(result.status == 200) {
                                     try {
+                                        invitation_id = result.data.invitation_id
                                         group_id = result.data.group_id
                                         group_name = result.data.group_name
                                         creator = result.data.creator
@@ -295,15 +296,40 @@ var GroupCheckLoop = function() {
                                             title:  'Group Invitation',
                                             text: creator + " invited to you join: "+ group_name + " group!",
                                             buttons: [{
-                                                text: 'Cancel',
-                                                onClick: function() {
-                                                    DoneIt.alert('You clicked first button!')
-                                                }
+                                                text: 'Cancel'
                                             },
                                             {
                                                 text: 'Accept',
                                                 onClick: function() {
-                                                    DoneIt.alert('You clicked second button!')
+                                                    
+                                                    body = {
+                                                        "invitation_id": invitation_id,
+                                                        "status": 'confirmed'
+                                                    }
+                                                    apigClient.inviteMemberPut({"Authorization": token }, body, {}).then(function(result){
+
+                                                        if(result.status == 200) {
+                                                            body = {
+                                                                "group_id": group_id,
+                                                                "member": cognitoUser.username
+                                                            }
+
+                                                            apigClient.doneItMembersPost({"Authorization": token }, body, {}).then(function(result){
+
+                                                                if(result.status == 200) {
+                                                                    console.log("created group membership")  
+                                                                    DoneIt.addNotification({
+                                                                        title: 'Success',
+                                                                        message: 'You are now a member of ' + group_name
+                                                                    });           
+                                                                } 
+                                                            }).catch( function(result){
+                                                                console.log(result)
+                                                            });       
+                                                        } 
+                                                    }).catch( function(result){
+                                                        console.log(result)
+                                                    });
                                                 }
                                             }]
                                         })

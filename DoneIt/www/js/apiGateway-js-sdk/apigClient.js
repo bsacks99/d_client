@@ -86,7 +86,7 @@ apigClientFactory.newClient = function (config) {
     apigClient.doneItGroupsGet = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
-        apiGateway.core.utils.assertParametersDefined(params, ['Authorization', 'group_id'], ['body']);
+        apiGateway.core.utils.assertParametersDefined(params, ['Authorization'], ['body']);
         
         var doneItGroupsGetRequest = {
             verb: 'get'.toUpperCase(),
@@ -191,7 +191,7 @@ apigClientFactory.newClient = function (config) {
     };
     
     
-   apigClient.inviteMemberGet = function (params, body, additionalParams) {
+    apigClient.inviteMemberGet = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
         apiGateway.core.utils.assertParametersDefined(params, ['email', 'Authorization'], ['body']);
@@ -206,6 +206,24 @@ apigClientFactory.newClient = function (config) {
         
         
         return apiGatewayClient.makeRequest(inviteMemberGetRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.inviteMemberPut = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, ['Authorization'], ['body']);
+        
+        var inviteMemberPutRequest = {
+            verb: 'put'.toUpperCase(),
+            path: pathComponent + uritemplate('/InviteMember').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, ['Authorization']),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(inviteMemberPutRequest, authType, additionalParams, config.apiKey);
     };
     
     
