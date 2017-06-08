@@ -88,7 +88,7 @@ var renderGroupView = function (context, session) {
         if (errors == undefined) {
             if(context.show_group_input) {
 
-                body = {
+                var body = {
                     "name": formData['name'],
                     "creator": cognitoUser.username
                 }
@@ -103,7 +103,7 @@ var renderGroupView = function (context, session) {
                             group_id = result.data.group_id
                             group_name = formData['name']
 
-                            body = {
+                            var body = {
                                 "group_id": group_id,
                                 "member": cognitoUser.username
                             }
@@ -117,7 +117,7 @@ var renderGroupView = function (context, session) {
                                 console.log(result)
                             });
 
-                            body = {
+                            var body = {
                                 "group_id": group_id,
                                 "member": formData['user']
                             }
@@ -154,7 +154,7 @@ var renderGroupView = function (context, session) {
             } else {
                 var apigClient = apigClientFactory.newClient()
                 var token = session.getIdToken().getJwtToken()
-                body = {
+                var body = {
                     "group_id": context.group_id,
                     "creator": cognitoUser.username,
                     "member": formData['user']
@@ -175,6 +175,81 @@ var renderGroupView = function (context, session) {
                 renderGroupView(context, session)
             }
 
+        } else {
+            // show form errors
+            DoneIt.hideIndicator();
+
+            displayFormErrors(errors)
+
+        }
+    });
+}
+
+var initAddTaskView = function(session) {
+
+    $$('.add-task-submit').on('click', function() {
+
+        DoneIt.showIndicator();
+
+        var constraints = {
+            name: {
+                format: {
+                    pattern: /[a-zA-Z0-9-_.\s]{4,50}$/,
+                    message: "DoneIts must be between 4 and 50 characters long, they can contain spaces, letters, numbers, dashes, underscores, and periods."
+                }
+            }
+            
+        };
+
+        var formData = DoneIt.formToData('#add_task');
+
+        var errors = validate(formData, constraints, {fullMessages: false})
+
+        if (errors == undefined) {
+
+            var group_id = ''
+            if(localStorage.getItem('group_id') != null) {
+                group_id = localStorage.getItem('group_id')
+            }
+
+            var body = {
+                "name": formData['name'],
+                "group_id": group_id,
+                "reoccuring": $$('input[name="reoccuring"]').prop('checked'),
+                "creator": cognitoUser.username
+            }
+
+            var apigClient = apigClientFactory.newClient()
+            var token = session.getIdToken().getJwtToken()
+
+            apigClient.tasksPost({"Authorization": token }, body, {}).then(function(result){
+
+                if(result.status == 200) {
+                    try {
+
+                        // var tasks = []
+                        // if(localStorage.getItem('tasks') != null) {
+                        //     tasks = JSON.parse(localStorage.getItem('tasks'))
+                        // }
+
+                        // body['done'] = false
+                        // tasks.push(body)
+                        // localStorage.setItem('tasks', JSON.stringify(tasks));
+
+                        DoneIt.addNotification({
+                            title: 'DoneIt Created',
+                            message: 'You have created ' + name
+                        });
+                    } catch (e) {
+                        console.log(e)
+                    }             
+                    DoneIt.hideIndicator()
+                    
+                } 
+            }).catch( function(result){
+                console.log(result)
+                DoneIt.hideIndicator()
+            });
         } else {
             // show form errors
             DoneIt.hideIndicator();
@@ -302,14 +377,14 @@ var GroupCheckLoop = function() {
                                                 text: 'Accept',
                                                 onClick: function() {
                                                     
-                                                    body = {
+                                                    var body = {
                                                         "invitation_id": invitation_id,
                                                         "status": 'confirmed'
                                                     }
                                                     apigClient.inviteMemberPut({"Authorization": token }, body, {}).then(function(result){
 
                                                         if(result.status == 200) {
-                                                            body = {
+                                                            var body = {
                                                                 "group_id": group_id,
                                                                 "member": cognitoUser.username
                                                             }
@@ -426,6 +501,9 @@ DoneIt.onPageAfterAnimation('index tasks add_task group task log', function (pag
                     case 'group':
                         initGroupView(session)
                         break
+                    case 'add_task':
+                        initAddTaskView(session)
+                        break
                 }
             } else {
                 mainView.router.load({url: 'login.html', query: {req: page.url}});
@@ -516,7 +594,6 @@ DoneIt.onPageInit('about', function (page) {
 })
 
 DoneIt.onPageInit('add_task', function (page) {
-
 
 })
 
