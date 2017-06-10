@@ -1,0 +1,70 @@
+<-- Add new user signup -->
+<!-- We don't need a full layout in this file because this page will be parsed with Ajax. -->
+
+<!-- Top Navbar-->
+<div class="pages">
+    <div data-page="sign_up" class="page">
+        <div class="page-content">
+            <div class="content-block">
+                <h2>Create An Account</h2>
+                    <form id="sign_up" class="list-block inset">
+                      <ul>
+                        <li>
+                          <div class="item-content">
+                            <div class="item-inner">
+                              <div class="item-input">
+                                <input type="email" name="username" placeholder="Your Email Address">
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="item-content">
+                            <div class="item-inner">
+                              <div class="item-input">
+                                <input type="password" name="password" placeholder="Password">
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="item-content">
+                            <div class="item-inner">
+                              <div class="item-input">
+                                <input type="password" name="password2" placeholder="Confirm Password">
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </form>
+                    <div class="content-block">
+                      <a href="#" class="button button-fill button-raised sign-up-submit">Create Account</a>
+                    </div>
+                <div class="popup popup-confirm">
+                    <div class="content-block">
+                        <p>We have sent you a confirmation code. Please check your email.</p>
+                        <p>Enter the confirmation code:</p>
+                        <form id="confirm" class="list-block inset">
+                          <ul>
+                            <li>
+                              <div class="item-content">
+                                <div class="item-inner">
+                                  <div class="item-input">
+                                    <input type="number" name="confirmation_code" placeholder="Confirmation Code">
+                                  </div>
+                                </div>
+                              </div>
+                            </li>
+                          </ul>
+                        </form>
+                        <div class="content-block">
+                          <a href="#" class="button confirm-submit">Confirm</a>
+                          <a href="#" class="button resend-submit">Resend Email</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
