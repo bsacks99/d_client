@@ -1,0 +1,16 @@
+C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\build\windows\debug\anycpu\win10\AppxManifest.xml
+C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\build\windows\debug\anycpu\win10\CordovaApp.Windows10.build.appxrecipe
+C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\build\windows\bld\ResourceHandlingTask.state
+C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\build\windows\bld\priconfig.xml
+C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\build\windows\bld\priconfig.xml.intermediate
+C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\build\windows\bld\layout.resfiles
+C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\build\windows\bld\layout.resfiles.intermediate
+C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\build\windows\bld\resources.resfiles
+C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\build\windows\bld\resources.resfiles.intermediate
+C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\build\windows\bld\pri.resfiles
+C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\build\windows\bld\pri.resfiles.intermediate
+C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\build\windows\bld\qualifiers.txt
+C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\build\windows\bld\qualifiers.txt.intermediate
+C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\build\windows\bld\MultipleQualifiersPerDimensionFound.txt
+C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\build\windows\bld\ProjectArchitectures.txt
+C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\build\windows\Debug\AnyCPU\win10\ReverseMap\resources.pri

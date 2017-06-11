@@ -1,0 +1,261 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Machine>DESKTOP-CEH837J</Machine>
+    <WindowsUser>chunt</WindowsUser>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetOsVersion>10.0</TargetOsVersion>
+    <TargetOsDescription>Windows 10.0</TargetOsDescription>
+    <SolutionConfiguration>Debug|AnyCPU</SolutionConfiguration>
+    <PackageArchitecture>neutral</PackageArchitecture>
+    <PackageIdentityName>74494fb0-4edd-11e7-899e-a30c1734d369</PackageIdentityName>
+    <PackageIdentityPublisher>CN=Apache Cordova Team</PackageIdentityPublisher>
+    <IntermediateOutputPath>C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\build\windows\bld\</IntermediateOutputPath>
+    <RemoteDeploymentType></RemoteDeploymentType>
+    <PackageRegistrationPath></PackageRegistrationPath>
+    <RemoveNonLayoutFiles>true</RemoveNonLayoutFiles>
+    <DeployOptionalPackages>false</DeployOptionalPackages>
+    <WindowsSdkPath></WindowsSdkPath>
+    <LayoutDir>C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\build\windows\Debug\AnyCPU\win10\AppX</LayoutDir>
+  </PropertyGroup>
+  <ItemGroup>
+    <AppXManifest Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\build\windows\Debug\AnyCPU\win10\AppxManifest.xml">
+      <PackagePath>AppxManifest.xml</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppXManifest>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\images\SplashScreen.scale-100.png">
+      <PackagePath>images\SplashScreen.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\images\Square150x150Logo.scale-100.png">
+      <PackagePath>images\Square150x150Logo.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\images\Square30x30Logo.scale-100.png">
+      <PackagePath>images\Square30x30Logo.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\images\Square310x310Logo.scale-100.png">
+      <PackagePath>images\Square310x310Logo.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\images\Square44x44Logo.scale-100.png">
+      <PackagePath>images\Square44x44Logo.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\images\Square70x70Logo.scale-100.png">
+      <PackagePath>images\Square70x70Logo.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\images\Square71x71Logo.scale-100.png">
+      <PackagePath>images\Square71x71Logo.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\images\StoreLogo.scale-100.png">
+      <PackagePath>images\StoreLogo.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\images\Wide310x150Logo.scale-100.png">
+      <PackagePath>images\Wide310x150Logo.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\lib\framework7\img\i-f7-ios.png">
+      <PackagePath>www\lib\framework7\img\i-f7-ios.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\lib\framework7\img\i-f7-material.png">
+      <PackagePath>www\lib\framework7\img\i-f7-material.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\about.html">
+      <PackagePath>www\about.html</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\group.html">
+      <PackagePath>www\group.html</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\index.html">
+      <PackagePath>www\index.html</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\login.html">
+      <PackagePath>www\login.html</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\sign_up.html">
+      <PackagePath>www\sign_up.html</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\task.html">
+      <PackagePath>www\task.html</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\task_add.html">
+      <PackagePath>www\task_add.html</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\task_history.html">
+      <PackagePath>www\task_history.html</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\cordova-js-src\confighelper.js">
+      <PackagePath>www\cordova-js-src\confighelper.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\cordova-js-src\exec.js">
+      <PackagePath>www\cordova-js-src\exec.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\cordova-js-src\platform.js">
+      <PackagePath>www\cordova-js-src\platform.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\cordova-js-src\splashscreen.js">
+      <PackagePath>www\cordova-js-src\splashscreen.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\cordova.js">
+      <PackagePath>www\cordova.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\cordova_plugins.js">
+      <PackagePath>www\cordova_plugins.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\js\amazon-cognito-identity.min.js">
+      <PackagePath>www\js\amazon-cognito-identity.min.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\js\apiGateway-js-sdk\apigClient.js">
+      <PackagePath>www\js\apiGateway-js-sdk\apigClient.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\js\apiGateway-js-sdk\lib\apiGatewayCore\apiGatewayClient.js">
+      <PackagePath>www\js\apiGateway-js-sdk\lib\apiGatewayCore\apiGatewayClient.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\js\apiGateway-js-sdk\lib\apiGatewayCore\sigV4Client.js">
+      <PackagePath>www\js\apiGateway-js-sdk\lib\apiGatewayCore\sigV4Client.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\js\apiGateway-js-sdk\lib\apiGatewayCore\simpleHttpClient.js">
+      <PackagePath>www\js\apiGateway-js-sdk\lib\apiGatewayCore\simpleHttpClient.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\js\apiGateway-js-sdk\lib\apiGatewayCore\utils.js">
+      <PackagePath>www\js\apiGateway-js-sdk\lib\apiGatewayCore\utils.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\js\apiGateway-js-sdk\lib\axios\dist\axios.standalone.js">
+      <PackagePath>www\js\apiGateway-js-sdk\lib\axios\dist\axios.standalone.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\js\apiGateway-js-sdk\lib\CryptoJS\components\enc-base64.js">
+      <PackagePath>www\js\apiGateway-js-sdk\lib\CryptoJS\components\enc-base64.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\js\apiGateway-js-sdk\lib\CryptoJS\components\hmac.js">
+      <PackagePath>www\js\apiGateway-js-sdk\lib\CryptoJS\components\hmac.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\js\apiGateway-js-sdk\lib\CryptoJS\rollups\hmac-sha256.js">
+      <PackagePath>www\js\apiGateway-js-sdk\lib\CryptoJS\rollups\hmac-sha256.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\js\apiGateway-js-sdk\lib\CryptoJS\rollups\sha256.js">
+      <PackagePath>www\js\apiGateway-js-sdk\lib\CryptoJS\rollups\sha256.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\js\apiGateway-js-sdk\lib\url-template\url-template.js">
+      <PackagePath>www\js\apiGateway-js-sdk\lib\url-template\url-template.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\js\aws-cognito-sdk.min.js">
+      <PackagePath>www\js\aws-cognito-sdk.min.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\js\aws-sdk.js">
+      <PackagePath>www\js\aws-sdk.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\js\aws-sdk.min.js">
+      <PackagePath>www\js\aws-sdk.min.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\js\doneit.js">
+      <PackagePath>www\js\doneit.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\js\template7.js">
+      <PackagePath>www\js\template7.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\js\template7.min.js">
+      <PackagePath>www\js\template7.min.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\js\validate.min.js">
+      <PackagePath>www\js\validate.min.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\lib\framework7\js\framework7.js">
+      <PackagePath>www\lib\framework7\js\framework7.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\lib\framework7\js\framework7.min.js">
+      <PackagePath>www\lib\framework7\js\framework7.min.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\lib\framework7\js\my-app.js">
+      <PackagePath>www\lib\framework7\js\my-app.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\plugins\cordova-plugin-console\www\console-via-logger.js">
+      <PackagePath>www\plugins\cordova-plugin-console\www\console-via-logger.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\plugins\cordova-plugin-console\www\logger.js">
+      <PackagePath>www\plugins\cordova-plugin-console\www\logger.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\plugins\cordova-plugin-sqlite-2\dist\sqlite-plugin.js">
+      <PackagePath>www\plugins\cordova-plugin-sqlite-2\dist\sqlite-plugin.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\plugins\cordova-plugin-statusbar\src\windows\StatusBarProxy.js">
+      <PackagePath>www\plugins\cordova-plugin-statusbar\src\windows\StatusBarProxy.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\plugins\cordova-plugin-statusbar\www\statusbar.js">
+      <PackagePath>www\plugins\cordova-plugin-statusbar\www\statusbar.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\WinJS\js\base.js">
+      <PackagePath>www\WinJS\js\base.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\css\splashscreen.css">
+      <PackagePath>www\css\splashscreen.css</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\css\styles.css">
+      <PackagePath>www\css\styles.css</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\lib\framework7\css\framework7.ios.colors.css">
+      <PackagePath>www\lib\framework7\css\framework7.ios.colors.css</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\lib\framework7\css\framework7.ios.colors.min.css">
+      <PackagePath>www\lib\framework7\css\framework7.ios.colors.min.css</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\lib\framework7\css\framework7.ios.css">
+      <PackagePath>www\lib\framework7\css\framework7.ios.css</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\lib\framework7\css\framework7.ios.min.css">
+      <PackagePath>www\lib\framework7\css\framework7.ios.min.css</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\lib\framework7\css\framework7.ios.rtl.css">
+      <PackagePath>www\lib\framework7\css\framework7.ios.rtl.css</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\lib\framework7\css\framework7.ios.rtl.min.css">
+      <PackagePath>www\lib\framework7\css\framework7.ios.rtl.min.css</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\lib\framework7\css\framework7.material.colors.css">
+      <PackagePath>www\lib\framework7\css\framework7.material.colors.css</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\lib\framework7\css\framework7.material.colors.min.css">
+      <PackagePath>www\lib\framework7\css\framework7.material.colors.min.css</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\lib\framework7\css\framework7.material.css">
+      <PackagePath>www\lib\framework7\css\framework7.material.css</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\lib\framework7\css\framework7.material.min.css">
+      <PackagePath>www\lib\framework7\css\framework7.material.min.css</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\lib\framework7\css\framework7.material.rtl.css">
+      <PackagePath>www\lib\framework7\css\framework7.material.rtl.css</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\lib\framework7\css\framework7.material.rtl.min.css">
+      <PackagePath>www\lib\framework7\css\framework7.material.rtl.min.css</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\lib\framework7\css\my-app.css">
+      <PackagePath>www\lib\framework7\css\my-app.css</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\js\apiGateway-js-sdk\README.md">
+      <PackagePath>www\js\apiGateway-js-sdk\README.md</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\lib\framework7\img\Thumbs.db">
+      <PackagePath>www\lib\framework7\img\Thumbs.db</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\lib\framework7\js\framework7.js.map">
+      <PackagePath>www\lib\framework7\js\framework7.js.map</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\www\lib\framework7\js\framework7.min.js.map">
+      <PackagePath>www\lib\framework7\js\framework7.min.js.map</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\config.xml">
+      <PackagePath>config.xml</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\build\windows\Debug\AnyCPU\win10\ReverseMap\resources.pri">
+      <PackagePath>resources.pri</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+</Project>
