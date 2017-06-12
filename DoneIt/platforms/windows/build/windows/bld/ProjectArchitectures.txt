@@ -1,0 +1,1 @@
+C:\Users\chunt\Desktop\GitHubProjects\d_client\DoneIt\platforms\windows\CordovaApp.Windows10.jsproj;neutral

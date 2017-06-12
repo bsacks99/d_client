@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--
+        Customize this policy to fit your own app's needs. For more guidance, see:
+        https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+        Some notes:
+        * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+        * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+        * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; connect-src 'self' https://*.amazonaws.com https://*.herokuapp.com;">
+        <!-- Required meta tags-->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <title>DoneIt</title>
+        <link rel="stylesheet" href="lib/framework7/css/framework7.ios.min.css">
+        <!-- It should be included After main Framework7 styles -->
+        <link rel="stylesheet" href="lib/framework7/css/framework7.ios.colors.css">
+        
+        <link rel="stylesheet" href="lib/framework7/css/framework7.material.min.css">
+        <!-- It should be included After main Framework7 styles -->
+        <link rel="stylesheet" href="lib/framework7/css/framework7.material.colors.min.css">
+        <link rel="stylesheet" href="css/styles.css" >
+    </head>
+    <body class="theme-bluegray">
+        <!-- Status bar overlay for full screen mode (PhoneGap) -->
+        <div class="statusbar-overlay"></div>
+        
+    </div>
+    <!-- Views -->
+    <div class="views">
+        <!-- Your main view, should have "view-main" class -->
+        <div class="view view-main">
+            <!-- Top Navbar-->
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <div class="left">
+                    </div>
+
+                    <div class="center">DoneIt</div>
+
+                    <div class="right">
+                        <a href="#" class="link main-menu">
+                            <i class="icon icon-bars"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Pages container, because we use fixed-through navbar and toolbar, it has additional appropriate classes-->
+            <div class="pages navbar-through toolbar-through">
+                <div class="pages">
+                    <div data-page="index" class="page">
+                        <div class="page-content">
+                            <div class="content-block">
+                                <h2 style="text-align:center">Hello.</h2>
+                                <p style="text-align:center">It is nice to meet you.</p>
+                                <p style="text-align:center">I am DoneIt, the only task tracking app you will ever need.</p> <br> <br>
+                                <!-- Link to another page -->
+                                <a href="about.html" data-view=".view-main">About Me, Yes I am Awesome!</a> <br> <br>
+                                <a href="sign_up.html" data-view=".view-main">Create an Account, all you need is an e-mail address.</a> <br> <br>
+                                <a href="login.html" data-view=".view-main">Already have an account? Go to the Login Screen.</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Bottom Toolbar-->
+            <div class="toolbar">
+                <div class="toolbar-inner">
+                    <!-- Toolbar links -->
+                    <a href="task.html" class="button button-raised">DoneIts</a>
+  					<a href="group.html" class="button button-raised">Group</a>
+  					<a href="task_history.html" class="button button-raised">History</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="lib/framework7/js/framework7.min.js"></script>
+    <script type="text/javascript" src="js/aws-cognito-sdk.min.js"></script>
+    <script type="text/javascript" src="js/amazon-cognito-identity.min.js"></script>
+    <script type="text/javascript" src="js/apiGateway-js-sdk/lib/axios/dist/axios.standalone.js"></script>
+    <script type="text/javascript" src="js/apiGateway-js-sdk/lib/CryptoJS/rollups/hmac-sha256.js"></script>
+    <script type="text/javascript" src="js/apiGateway-js-sdk/lib/CryptoJS/rollups/sha256.js"></script>
+    <script type="text/javascript" src="js/apiGateway-js-sdk/lib/CryptoJS/components/hmac.js"></script>
+    <script type="text/javascript" src="js/apiGateway-js-sdk/lib/CryptoJS/components/enc-base64.js"></script>
+    <script type="text/javascript" src="js/apiGateway-js-sdk/lib/url-template/url-template.js"></script>
+    <script type="text/javascript" src="js/apiGateway-js-sdk/lib/apiGatewayCore/sigV4Client.js"></script>
+    <script type="text/javascript" src="js/apiGateway-js-sdk/lib/apiGatewayCore/apiGatewayClient.js"></script>
+    <script type="text/javascript" src="js/apiGateway-js-sdk/lib/apiGatewayCore/simpleHttpClient.js"></script>
+    <script type="text/javascript" src="js/apiGateway-js-sdk/lib/apiGatewayCore/utils.js"></script>
+    <script type="text/javascript" src="js/apiGateway-js-sdk/apigClient.js"></script>
+    <script type="text/javascript" src="js/aws-sdk.min.js"></script>
+    <script type="text/javascript" src="js/validate.min.js"></script>
+    <script type="text/javascript" src="js/template7.min.js"></script>
+    <script type="text/javascript" src="js/doneit.js"></script>
+
+    <script id="group_template" type="text/template7">
+        <h2>Group</h2>
+        {{#unless show_group_input}}
+        <div class="content-block">
+            <h3>{{group_name}}</h3>
+        </div>
+        {{/unless}}
+        <h4>{{group_action_header}}</h4>
+        <form id="group" class="list-block inset">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-input">
+                                    {{#if show_group_input}}
+                                    <input type="text" name="name" placeholder="Name Your Group"/>
+                                    {{/if}}
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-input">
+                                    <input type="email" name="user" placeholder="Enter New Member Email Address"/>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </form>
+        <div class="content-block">
+            <a href="#" class="button group-submit">{{group_button_label}}</a>
+        </div>
+    </script>
+
+    <script id="group_invitation_template" type="text/template7">
+        <h2>{{title}}</h2>
+        <div class="content-block">
+            <h3>{{message}}</h3>
+        </div>
+        <div class="content-block">
+            <a href="#" class="button group-invite-cancel">Cancel</a>
+            <a href="#" class="button group-invite-accept">Accept</a>
+        </div>
+    </script>
+</body>
+</html>
