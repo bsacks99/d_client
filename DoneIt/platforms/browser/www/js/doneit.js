@@ -52,6 +52,17 @@ var displayFormErrors = function(errors) {
     }
 }
 
+var renderTasksView = function(context, session) {
+    console.log(context)
+    var template = $$('#doneit_buttons_template').html()
+ 
+    var compiledTemplate = Template7.compile(template)
+    var output = compiledTemplate(context)
+
+    $$('#donit_view').html(output)
+}
+
+
 var renderGroupView = function (context, session) {
     var template = $$('#group_template').html()
  
@@ -185,6 +196,39 @@ var renderGroupView = function (context, session) {
     });
 }
 
+var initTaskView = function(session) {
+
+    DoneIt.showIndicator();
+    console.log("Initialize the Amazon API gateway client")
+    var tasks = null
+    var group_id = ''
+    if(localStorage.getItem('group_id') != null) {
+        group_id = localStorage.getItem('group_id')
+    }
+    var apigClient = apigClientFactory.newClient();
+    var token = session.getIdToken().getJwtToken()
+
+    var template_context = {
+        "tasks": []
+    }
+    apigClient.tasksGet({'creator': cognitoUser.username, 'group_id': group_id, "Authorization": token }, {}, {}).then(function(result){
+
+        if(result.status == 200) {
+            try {
+                template_context.tasks = result.data
+                DoneIt.hideIndicator()                   
+                renderTasksView(template_context, session)
+            } catch (e) {
+                console.log(e)
+            }                                
+        } 
+    }).catch( function(result){
+        console.log(result)
+        DoneIt.hideIndicator()
+        renderTasksView(template_context, session)
+    });
+}
+
 var initAddTaskView = function(session) {
 
     $$('.add-task-submit').on('click', function() {
@@ -215,7 +259,7 @@ var initAddTaskView = function(session) {
             var body = {
                 "name": formData['name'],
                 "group_id": group_id,
-                "reoccuring": $$('input[name="reoccuring"]').prop('checked'),
+                "reoccuring": ($$('input[name="reoccuring"]').prop('checked'))? 'yes' : 'no',
                 "creator": cognitoUser.username
             }
 
@@ -238,7 +282,7 @@ var initAddTaskView = function(session) {
 
                         DoneIt.addNotification({
                             title: 'DoneIt Created',
-                            message: 'You have created ' + name
+                            message: 'You have created ' + formData['name']
                         });
                     } catch (e) {
                         console.log(e)
@@ -504,6 +548,8 @@ DoneIt.onPageAfterAnimation('index tasks add_task group task log', function (pag
                     case 'add_task':
                         initAddTaskView(session)
                         break
+                    case 'tasks':
+                        initTaskView(session)
                 }
             } else {
                 mainView.router.load({url: 'login.html', query: {req: page.url}});

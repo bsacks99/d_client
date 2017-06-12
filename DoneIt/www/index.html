@@ -152,5 +152,23 @@
             <a href="#" class="button group-invite-accept">Accept</a>
         </div>
     </script>
+
+    <script id="doneit_buttons_template" type="text/template7">
+        <h2>Current DoneIts</h2>
+        <div class="list-block">
+            <ul>
+                {{#tasks}}
+                <li class="item-content">
+                    <div class="item-inner">
+                        <a href="#" class="button button-fill button-raised" data-id="{{task_id}}">{{name}}</a>
+                    </div>
+                </li>
+                {{/tasks}}
+            </ul>
+        </div>
+        <div class="content-block add new">
+            <a href="task_add.html" class="button button-fill button-raised">+ Add New DoneIt</a>
+        </div> 
+    </script>
 </body>
 </html>
