@@ -85,14 +85,14 @@ apigClientFactory.newClient = function (config) {
     
     apigClient.doneItGroupsGet = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
-        
+        // Accepts: 'group_id', 'group_name'
         apiGateway.core.utils.assertParametersDefined(params, ['Authorization'], ['body']);
         
         var doneItGroupsGetRequest = {
             verb: 'get'.toUpperCase(),
             path: pathComponent + uritemplate('/DoneItGroups').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
             headers: apiGateway.core.utils.parseParametersToObject(params, ['Authorization', ]),
-            queryParams: apiGateway.core.utils.parseParametersToObject(params, ['group_id', 'group_name']),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, ['group_id', 'group_name', 'get_members']),
             body: body
         };
         
@@ -265,14 +265,14 @@ apigClientFactory.newClient = function (config) {
     
     apigClient.tasksGet = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
-        
+        // Accepts: 'creator', 'group_id', 'task_id'
         apiGateway.core.utils.assertParametersDefined(params, ['Authorization'], ['body']);
         
         var tasksGetRequest = {
             verb: 'get'.toUpperCase(),
             path: pathComponent + uritemplate('/Tasks').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
-            headers: apiGateway.core.utils.parseParametersToObject(params, ['Authorization']),
-            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            headers: apiGateway.core.utils.parseParametersToObject(params, ['Authorization', ]),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, ['creator', 'group_id', 'task_id']),
             body: body
         };
         

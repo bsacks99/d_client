@@ -108,8 +108,9 @@
             <h3>{{group_name}}</h3>
         </div>
         {{/unless}}
-        <h4>{{group_action_header}}</h4>
+        
         <form id="group" class="list-block inset">
+            <div class="content-block-title">{{group_action_header}}</div>
             <div class="list-block">
                 <ul>
                     <li>
@@ -119,7 +120,6 @@
                                     {{#if show_group_input}}
                                     <input type="text" name="name" placeholder="Name Your Group"/>
                                     {{/if}}
-                                    <br>
                                 </div>
                             </div>
                         </div>
@@ -129,7 +129,6 @@
                             <div class="item-inner">
                                 <div class="item-input">
                                     <input type="email" name="user" placeholder="Enter New Member Email Address"/>
-                                    <br>
                                 </div>
                             </div>
                         </div>
@@ -138,7 +137,19 @@
             </div>
         </form>
         <div class="content-block">
-            <a href="#" class="button group-submit">{{group_button_label}}</a>
+            <a href="#" class="button button-fill button-raised group-submit">{{group_button_label}}</a>
+        </div>
+        <h3>Members</h3>
+        <div class="list-block">
+            <ul>
+                {{#members}}
+                <li class="item-content">
+                    <div class="item-inner">
+                        <p>{{member}}</p>
+                    </div>
+                </li>
+                {{/members}}
+            </ul>
         </div>
     </script>
 
@@ -151,6 +162,24 @@
             <a href="#" class="button group-invite-cancel">Cancel</a>
             <a href="#" class="button group-invite-accept">Accept</a>
         </div>
+    </script>
+
+    <script id="doneit_buttons_template" type="text/template7">
+        <h2>Current DoneIts</h2>
+        <div class="list-block">
+            <ul>
+                {{#tasks}}
+                <li class="item-content">
+                    <div class="item-inner">
+                        <a href="#" class="button button-fill button-raised" data-id="{{task_id}}">{{name}}</a>
+                    </div>
+                </li>
+                {{/tasks}}
+            </ul>
+        </div>
+        <div class="content-block add new">
+            <a href="task_add.html" class="button button-fill button-raised">+ Add New DoneIt</a>
+        </div> 
     </script>
 </body>
 </html>

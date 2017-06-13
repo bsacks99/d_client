@@ -57,4 +57,6 @@
     <preference name="PaginationMode" value="unpaginated" />
     <preference name="StatusBarOverlaysWebView" value="true" />
     <preference name="StatusBarStyle" value="lightcontent" />
+    <preference name="windows-target-version" value="10.0" />
+    <preference name="windows-phone-target-version" value="10.0" />
 </widget>

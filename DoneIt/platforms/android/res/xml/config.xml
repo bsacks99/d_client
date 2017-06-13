@@ -28,6 +28,8 @@
     <allow-intent href="geo:*" />
     <allow-intent href="market:*" />
     <preference name="loglevel" value="DEBUG" />
+    <preference name="windows-target-version" value="10.0" />
+    <preference name="windows-phone-target-version" value="10.0" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="android-minSdkVersion" value="14" />
 </widget>

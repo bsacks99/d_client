@@ -1,4 +1,4 @@
-﻿/*
+/*
    statusbar-overlay sets the background color for the overlay. Black text is the default when the statusbar plugin is not added. When the
    statusbar plugin is added, it also adds default setting to make the content white via:
 
@@ -18,5 +18,8 @@ h2, h3, h4, p {
   color: #607d8b;
 }
 .content-block-title{
+  color: #607d8b;
+}
+.item-title{
   color: #607d8b;
 }

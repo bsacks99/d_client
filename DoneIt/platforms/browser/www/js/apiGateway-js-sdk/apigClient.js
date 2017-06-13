@@ -92,7 +92,7 @@ apigClientFactory.newClient = function (config) {
             verb: 'get'.toUpperCase(),
             path: pathComponent + uritemplate('/DoneItGroups').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
             headers: apiGateway.core.utils.parseParametersToObject(params, ['Authorization', ]),
-            queryParams: apiGateway.core.utils.parseParametersToObject(params, ['group_id', 'group_name']),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, ['group_id', 'group_name', 'get_members']),
             body: body
         };
         

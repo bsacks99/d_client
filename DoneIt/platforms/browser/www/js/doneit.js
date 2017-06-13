@@ -318,7 +318,8 @@ var initGroupView = function(session) {
         "group_button_label": "Create Group &amp; Send Invite",
         "group_name": group_name,
         "group_id": group_id,
-        "show_group_input": true
+        "show_group_input": true,
+        "members": []
     }
 
     apigClient.doneItMembersGet({'email': cognitoUser.username, "Authorization": token }, {}, {}).then(function(result){
@@ -331,7 +332,7 @@ var initGroupView = function(session) {
                 console.log(e)
             }                                
 
-            apigClient.doneItGroupsGet({'group_id': group_id, "Authorization": token }, {}, {}).then(function(result){
+            apigClient.doneItGroupsGet({'group_id': group_id, 'get_members': true, "Authorization": token }, {}, {}).then(function(result){
 
                 if(result.status == 200) {
                     try {
@@ -343,6 +344,7 @@ var initGroupView = function(session) {
                         template_context.group_name = group_name
                         template_context.group_id = group_id
                         template_context.show_group_input = false
+                        template_context.members=result.data.members
                         console.log(template_context)
                     } catch (e) {
                         console.log(e)
