@@ -54,12 +54,46 @@ var displayFormErrors = function(errors) {
 
 var renderTasksView = function(context, session) {
     console.log(context)
+
+    context.tasks = context.tasks.sort(function(a, b){
+                    var keyA = new Date(a.last_done),
+                        keyB = new Date(b.last_done);
+                    // Compare the 2 dates
+                    if(keyA < keyB) return -1;
+                    if(keyA > keyB) return 1;
+                    return 0;
+                });
     var template = $$('#doneit_buttons_template').html()
  
     var compiledTemplate = Template7.compile(template)
     var output = compiledTemplate(context)
 
     $$('#donit_view').html(output)
+
+    $$('.task-button').on('click', function() {
+        var task_id = $$(this).data('task_id');
+        console.log(task_id)
+        DoneIt.showIndicator();
+
+        var body = {
+            "task_id": task_id
+        }
+
+        var apigClient = apigClientFactory.newClient()
+        var token = session.getIdToken().getJwtToken()
+
+        apigClient.tasksPatch({"Authorization": token }, body, {}).then(function(result){
+
+            if(result.status == 200) {
+                console.log("Task updated")  
+                initTaskView(session)        
+            } 
+        }).catch( function(result){
+            console.log(result)
+        });
+        DoneIt.hideIndicator() 
+        
+    })
 }
 
 

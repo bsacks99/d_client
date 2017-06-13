@@ -85,14 +85,14 @@ apigClientFactory.newClient = function (config) {
     
     apigClient.doneItGroupsGet = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
-        // Accepts: 'group_id', 'group_name'
+        
         apiGateway.core.utils.assertParametersDefined(params, ['Authorization'], ['body']);
         
         var doneItGroupsGetRequest = {
             verb: 'get'.toUpperCase(),
             path: pathComponent + uritemplate('/DoneItGroups').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
             headers: apiGateway.core.utils.parseParametersToObject(params, ['Authorization', ]),
-            queryParams: apiGateway.core.utils.parseParametersToObject(params, ['group_id', 'group_name', 'get_members']),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, ['group_id', 'get_members', 'group_name']),
             body: body
         };
         
@@ -265,7 +265,7 @@ apigClientFactory.newClient = function (config) {
     
     apigClient.tasksGet = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
-        // Accepts: 'creator', 'group_id', 'task_id'
+        
         apiGateway.core.utils.assertParametersDefined(params, ['Authorization'], ['body']);
         
         var tasksGetRequest = {
@@ -296,6 +296,24 @@ apigClientFactory.newClient = function (config) {
         
         
         return apiGatewayClient.makeRequest(tasksPostRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.tasksPatch = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, ['Authorization'], ['body']);
+        
+        var tasksPatchRequest = {
+            verb: 'patch'.toUpperCase(),
+            path: pathComponent + uritemplate('/Tasks').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, ['Authorization']),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(tasksPatchRequest, authType, additionalParams, config.apiKey);
     };
     
     
