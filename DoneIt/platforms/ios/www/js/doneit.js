@@ -76,7 +76,8 @@ var renderTasksView = function(context, session) {
         DoneIt.showIndicator();
 
         var body = {
-            "task_id": task_id
+            "task_id": task_id,
+            "doer": cognitoUser.username
         }
 
         var apigClient = apigClientFactory.newClient()
