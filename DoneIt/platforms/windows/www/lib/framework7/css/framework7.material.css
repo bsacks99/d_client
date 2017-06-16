@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Framework7 1.6.0
  * Full featured mobile HTML framework for building iOS & Android apps
  * 

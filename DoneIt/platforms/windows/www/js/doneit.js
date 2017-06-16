@@ -1,4 +1,4 @@
-// Initialize app
+﻿// Initialize app
 var DoneIt = new Framework7();
 
 // Add view

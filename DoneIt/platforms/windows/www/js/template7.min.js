@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Template7 1.1.2
  * Mobile-first JavaScript template engine
  * 
