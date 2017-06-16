@@ -1,6 +1,8 @@
 // Initialize app
 var DoneIt = new Framework7();
 
+var groupLoopRunning = false
+
 // Add view
 var mainView = DoneIt.addView('.view-main', {
     // Because we want to use dynamic navbar, we need to enable it for this view:
@@ -236,7 +238,7 @@ var initTaskView = function(session) {
     DoneIt.showIndicator();
     console.log("Initialize the Amazon API gateway client")
     var tasks = null
-    var group_id = ''
+    var group_id = undefined
     if(localStorage.getItem('group_id') != null) {
         group_id = localStorage.getItem('group_id')
     }
@@ -402,6 +404,7 @@ var initGroupView = function(session) {
 }
 
 var GroupCheckLoop = function() {
+    groupLoopRunning = false
     cognitoUser = userPool.getCurrentUser();
     if (cognitoUser != null) {
         cognitoUser.getSession(function(err, session) {
@@ -494,11 +497,14 @@ var GroupCheckLoop = function() {
                                     }                                             
                                 } 
                             }).catch( function(result){
-                                setTimeout(function(){
-                                    if(localStorage.getItem('group_id') == null) {
-                                        GroupCheckLoop();
-                                    }      
-                                }, 3000);
+                                if(!groupLoopRunning) {
+                                    setTimeout(function(){
+                                        groupLoopRunning = true
+                                        if(localStorage.getItem('group_id') == null) {
+                                            GroupCheckLoop();
+                                        }      
+                                    }, 3000);
+                                }
                                 console.log(result)
                             });
                     });
@@ -551,12 +557,14 @@ $$(document).on('deviceready', function() {
     if (cognitoUser != null) {
         cognitoUser.getSession(function(err, session) {
             if(session.isValid()) {
-                setTimeout(function(){
-                    console.log(localStorage.getItem('group_id'))
-                    if(localStorage.getItem('group_id') == null) {
-                        GroupCheckLoop();
-                    }      
-                }, 1000);
+                if(!groupLoopRunning) {
+                    setTimeout(function(){
+                        groupLoopRunning = true
+                        if(localStorage.getItem('group_id') == null) {
+                            GroupCheckLoop();
+                        }      
+                    }, 3000);
+                }
             }
         })
     }
@@ -645,12 +653,16 @@ DoneIt.onPageInit('login', function (page) {
                             'cognito-idp.us-east-1.amazonaws.com/us-east-1_xdOMAneGm' : result.getIdToken().getJwtToken()
                         }
                     });
-                    setTimeout(function(){
-                        console.log(localStorage.getItem('group_id'))
-                        if(localStorage.getItem('group_id') == null) {
-                            GroupCheckLoop();
-                        }      
-                    }, 1000);
+                    if (!groupLoopRunning) {
+                        setTimeout(function(){
+                            groupLoopRunning = true
+                            console.log(localStorage.getItem('group_id'))
+                            if(localStorage.getItem('group_id') == null) {
+                                GroupCheckLoop();
+                            }      
+                        }, 3000);
+                    }
+
                     mainView.router.load({url: 'task.html'});
                 },
 

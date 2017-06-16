@@ -15,11 +15,11 @@
 }
 
 h2, h3, h4, p {
-  color: #607d8b;
+  color: #607d8b !important;
 }
 .content-block-title{
-  color: #607d8b;
+  color: #607d8b !important;
 }
 .item-title{
-  color: #607d8b;
+  color: #607d8b !important;
 }

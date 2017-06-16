@@ -24,14 +24,14 @@
         <allow-intent href="itms-apps:*" />
         <preference name="BackupWebStorage" value="none" />
     </platform>
-	<preference name="windows-target-version" value="10.0" />
-	<preference name="windows-phone-target-version" 	value="10.0" />
+    <preference name="windows-target-version" value="10.0" />
+    <preference name="windows-phone-target-version" value="10.0" />
     <preference name="DisallowOverscroll" value="true" />
     <plugin name="cordova-plugin-whitelist" spec="~1.2.0" />
     <plugin name="cordova-plugin-console" spec="~1.0.1" />
     <plugin name="cordova-plugin-statusbar" spec="~1.0.1" />
     <plugin name="cordova-plugin-sqlite-2" spec="~1.0.4" />
     <engine name="ios" spec="~4.3.1" />
-    <engine name="android" spec="~6.1.2" />
     <engine name="windows" spec="~4.4.3" />
+    <engine name="android" spec="~6.2.3" />
 </widget>

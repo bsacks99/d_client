@@ -19,11 +19,25 @@
     },
     "homepage": "https://github.com/phonegap/phonegap-template-framework7",
     "dependencies": {
-        "cordova-plugin-sqlite-2": "^1.0.4"
+        "cordova-android": "^6.2.3",
+        "cordova-plugin-sqlite-2": "^1.0.4",
+        "cordova-ios": "~4.3.1",
+        "cordova-windows": "~4.4.3",
+        "cordova-plugin-console": "~1.0.1",
+        "cordova-plugin-statusbar": "~1.0.1",
+        "cordova-plugin-whitelist": "~1.2.0"
     },
     "cordova": {
         "plugins": {
-            "cordova-plugin-sqlite-2": {}
-        }
+            "cordova-plugin-sqlite-2": {},
+            "cordova-plugin-console": {},
+            "cordova-plugin-statusbar": {},
+            "cordova-plugin-whitelist": {}
+        },
+        "platforms": [
+            "android",
+            "ios",
+            "windows"
+        ]
     }
 }
