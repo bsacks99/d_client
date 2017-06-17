@@ -2,7 +2,7 @@
 <widget id="com.capstone.donedat" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>DoneIt</name>
     <description>
-        A basic Framework7 template for PhoneGap.
+        DontIt task managment application.
     </description>
     <author email="dev@cordova.apache.org" href="http://cordova.io">
         Apache Cordova Team
